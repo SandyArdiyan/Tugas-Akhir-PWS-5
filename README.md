@@ -1,3 +1,6 @@
+LinkDrive Arsiktetur :
+https://docs.google.com/document/d/1gYtTTBH65_Qfvu18hpI55nJYmLrYu2-u/edit?usp=sharing&ouid=100534786438866434881&rtpof=true&sd=true
+
 Tampilan Registrasi
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4c89097d-9087-4f13-9093-dfb29d13601f" />
