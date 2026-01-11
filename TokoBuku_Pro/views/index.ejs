@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toko Buku Sanss</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f9; padding: 20px; }
+        .nav { background: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card { background: white; width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+        .container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .topup-box { display: flex; gap: 5px; align-items: center; background: #eee; padding: 5px 10px; border-radius: 5px; }
+        .search-box { margin-bottom: 30px; text-align: center; }
+        .search-box input { padding: 12px; width: 300px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
+        .search-box button { padding: 12px 25px; border-radius: 50px; background: #333; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div>
+            <h2>Halo, <%= user.username %>! (<%= user.role %>)</h2>
+            <p>Saldo: <b style="color: green; font-size: 1.3em;">Rp <%= Number(user.balance).toLocaleString('id-ID') %></b></p>
+            <% if(user.role === 'user') { %>
+                <form action="/topup" method="POST" class="topup-box">
+                    <input type="number" name="amount" placeholder="Nominal..." required style="padding: 5px; border: 1px solid #ccc;">
+                    <button type="submit" style="padding: 5px 10px; background: orange; border: none; cursor: pointer;">+ Isi</button>
+                </form>
+            <% } else { %> <small style="color: blue;">*Dompet Admin</small> <% } %>
+        </div>
+        <div>
+            <a href="/redeem" style="color: green; margin-right: 15px; text-decoration: none; font-weight: bold;">🔑 Klaim Buku</a>
+            <% if(user.role === 'admin') { %>
+                <a href="/admin" style="background: #2c3e50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Dashboard Admin</a>
+            <% } %>
+            <a href="/auth/logout" style="color: red; margin-left: 15px; text-decoration: none;">Logout</a>
+        </div>
+    </div>
+    <div class="search-box">
+        <form action="/" method="GET">
+            <input type="text" name="q" placeholder="Cari buku..." value="<%= searchQuery %>">
+            <button type="submit">🔍 Cari</button>
+            <% if(searchQuery) { %> <a href="/" style="margin-left: 10px; color: red;">x Reset</a> <% } %>
+        </form>
+    </div>
+    <div class="container">
+        <% if(books.length < 1) { %> <h3 style="color: #777;">Buku tidak ditemukan.</h3> <% } %>
+        <% books.forEach(book => { %>
+            <div class="card">
+                <div><h3><%= book.title %></h3><p style="color: #666;">Penulis: <%= book.author %></p></div>
+                <div>
+                    <h2 style="color: green;">Rp <%= Number(book.price).toLocaleString('id-ID') %></h2>
+                    <% if(user.role === 'user') { %>
+                        <form action="/buy/<%= book.id %>" method="POST">
+                            <button style="width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Beli Sekarang</button>
+                        </form>
+                    <% } else { %> <button disabled style="width: 100%; padding: 12px; background: #ccc; cursor: not-allowed;">Milik Admin</button> <% } %>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</body>
+</html>

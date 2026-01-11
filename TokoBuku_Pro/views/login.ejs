@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #eee;">
+    <div style="background: white; padding: 40px; width: 300px; border-radius: 10px;">
+        <h2 style="text-align: center;">Login Toko</h2>
+        <% if(error) { %> <p style="color:red; text-align:center;"><%= error %></p> <% } %>
+        <form action="/auth/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required style="width: 100%; padding: 10px; margin: 10px 0; box-sizing:border-box;">
+            <input type="password" name="password" placeholder="Password" required style="width: 100%; padding: 10px; margin: 10px 0; box-sizing:border-box;">
+            <button style="width: 100%; padding: 10px; background: blue; color: white; border: none; cursor: pointer;">Masuk</button>
+        </form>
+        <p style="text-align: center;"><a href="/auth/register">Daftar Akun</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Dashboard</title></head>
+<body style="font-family: sans-serif; padding: 20px;">
+    <h1>Admin Dashboard</h1>
+    <a href="/admin/add-book" style="background: green; color: white; padding: 10px; text-decoration: none;">+ Tambah Buku Baru</a>
+    <a href="/" style="margin-left: 20px;">Ke Halaman Depan</a>
+    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="background: #ddd;"><th>ID</th><th>Pembeli</th><th>Buku</th><th>Harga</th><th>API Key</th><th>Waktu</th></tr>
+        <% transactions.forEach(t => { %>
+            <tr>
+                <td><%= t.id %></td><td><%= t.username %></td><td><%= t.title %></td>
+                <td>Rp <%= Number(t.price).toLocaleString('id-ID') %></td>
+                <td style="font-family: monospace; color: red;"><%= t.api_key %></td>
+                <td><%= new Date(t.purchase_date).toLocaleString() %></td>
+            </tr>
+        <% }) %>
+    </table>
+</body>
+</html>

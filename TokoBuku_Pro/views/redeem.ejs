@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Klaim Buku</title>
+    <style>
+        body { font-family: sans-serif; background: #2c3e50; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; }
+        .box { background: white; color: #333; padding: 30px; border-radius: 10px; width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box; font-family: monospace; text-align: center; font-size: 1.2em; }
+        button { width: 100%; padding: 12px; background: orange; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        .result { margin-top: 20px; background: #dff0d8; padding: 15px; border-radius: 5px; border: 1px solid #3c763d; color: #3c763d; }
+        .error { margin-top: 20px; background: #f2dede; padding: 15px; border-radius: 5px; color: #a94442; }
+        a { color: #ccc; text-decoration: none; margin-top: 15px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🔓 Tukar API Key</h2>
+        <p>Masukkan kode yang ada di struk belanja kamu.</p>
+        <form action="/redeem" method="POST">
+            <input type="text" name="apiKey" placeholder="Paste API Key disini..." required>
+            <button type="submit">BUKA AKSES</button>
+        </form>
+        <% if(result) { %>
+            <div class="result">
+                <h3><%= result.title %></h3><hr>
+                <p><strong>Konten Rahasia:</strong></p>
+                <p style="font-size: 1.2em; font-weight: bold;"><%= result.data_content %></p>
+            </div>
+        <% } %>
+        <% if(error) { %> <div class="error"><%= error %></div> <% } %>
+    </div>
+    <a href="/">Kembali ke Toko</a>
+</body>
+</html>
