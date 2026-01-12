@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/adminController');
-const { cekLogin, cekAdmin } = require('../middleware/authMiddleware');
+const adminController = require('../controllers/adminController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// Proteksi Ganda (Harus Login & Harus Admin)
-router.use(cekLogin, cekAdmin); 
-
-router.get('/', controller.dashboard);
-router.get('/add-book', controller.formAddBook);
-router.post('/add-book', controller.processAddBook);
+// Route Dashboard Admin
+// Menggunakan authMiddleware.cekAdmin (sesuai file middleware kamu)
+router.get('/', authMiddleware.cekAdmin, adminController.dashboard);
 
 module.exports = router;

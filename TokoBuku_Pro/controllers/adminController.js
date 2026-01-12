@@ -1,18 +1,36 @@
 const db = require('../config/database');
 
 exports.dashboard = (req, res) => {
-    const sql = `SELECT t.id, u.username, b.title, t.api_key, t.purchase_date, b.price 
-                 FROM transactions t JOIN users u ON t.user_id = u.id JOIN books b ON t.book_id = b.id 
-                 ORDER BY t.purchase_date DESC`;
-    db.query(sql, (err, transactions) => {
-        res.render('admin', { transactions });
+    // Query 1: Ambil Daftar Buku
+    const sqlBooks = 'SELECT * FROM books ORDER BY id DESC';
+    
+    // Query 2: Ambil Riwayat Transaksi (Join dengan tabel users dan books)
+    const sqlTransactions = `
+        SELECT t.id, u.username, b.title, t.amount, t.created_at 
+        FROM transactions t
+        JOIN users u ON t.user_id = u.id
+        JOIN books b ON t.book_id = b.id
+        ORDER BY t.created_at DESC
+    `;
+
+    db.query(sqlBooks, (err, books) => {
+        if (err) {
+            console.error(err);
+            return res.redirect('/');
+        }
+
+        db.query(sqlTransactions, (err, transactions) => {
+            if (err) {
+                console.error(err);
+                transactions = []; // Jika error, kirim array kosong
+            }
+
+            // Kirim kedua data ke view admin
+            res.render('admin', { 
+                books: books, 
+                transactions: transactions,
+                user: req.session.user 
+            });
+        });
     });
-};
-
-exports.formAddBook = (req, res) => res.render('add-book');
-
-exports.processAddBook = (req, res) => {
-    const { title, author, price, data_content } = req.body;
-    db.query('INSERT INTO books (title, author, price, data_content) VALUES (?, ?, ?, ?)', 
-    [title, author, price, data_content], () => res.redirect('/'));
 };

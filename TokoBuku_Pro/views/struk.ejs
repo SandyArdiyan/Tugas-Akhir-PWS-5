@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Struk Pembelian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .ticket { border: 2px dashed #0d6efd; background-color: #fff; }
+        .api-box { background: #212529; color: #00ff00; font-family: monospace; padding: 15px; border-radius: 5px; word-break: break-all; }
+    </style>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+
+    <div class="card ticket shadow-lg p-4" style="width: 100%; max-width: 450px;">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">TokoBuku Pro</h2>
+            <p class="text-muted">Terima kasih atas pembelian Anda!</p>
+        </div>
+
+        <div class="mb-3 border-bottom pb-3">
+            <div class="d-flex justify-content-between">
+                <span class="text-muted">Pembeli</span>
+                <span class="fw-bold"><%= user.username %></span>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <span class="text-muted">Tanggal</span>
+                <span><%= date %></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <h5 class="fw-bold"><%= book.title %></h5>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="badge bg-secondary">Buku Cetak</span>
+                <h4 class="text-success fw-bold mb-0">Rp <%= book.price.toLocaleString('id-ID') %></h4>
+            </div>
+        </div>
+
+        <div class="alert alert-primary text-center">
+            <strong>Akses API Premium Anda:</strong>
+            <div class="api-box mt-2 fs-6">
+                <%= apiKey %>
+            </div>
+            <small class="text-muted">*Simpan kunci ini baik-baik.</small>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+            <button onclick="window.print()" class="btn btn-outline-dark">
+                <i class="fas fa-print"></i> Cetak Struk
+            </button>
+            <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+        </div>
+    </div>
+
+</body>
+</html>
