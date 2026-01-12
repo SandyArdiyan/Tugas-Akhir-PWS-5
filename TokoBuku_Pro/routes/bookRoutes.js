@@ -1,23 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const authMiddleware = require('../middleware/authMiddleware'); // Pastikan file ini ada
+const authMiddleware = require('../middleware/authMiddleware');
 const multer = require('multer');
 const path = require('path');
 
-// --- Konfigurasi Multer (Upload Gambar) ---
+// --- Konfigurasi Penyimpanan Gambar (Multer) ---
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/uploads/') // Lokasi simpan gambar
+        // Gambar akan disimpan di folder public/uploads/
+        cb(null, 'public/uploads/') 
     },
     filename: function (req, file, cb) {
-        // Nama file unik: timestamp + ekstensi asli
+        // Memberi nama unik file: timestamp + ekstensi asli
         cb(null, Date.now() + path.extname(file.originalname)) 
     }
 });
 
+// Filter File (Hanya gambar)
 const fileFilter = (req, file, cb) => {
-    // Tolak file jika bukan gambar
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
         cb(null, true);
     } else {
@@ -26,21 +27,25 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ 
-    storage: storage,
+    storage: storage, 
     fileFilter: fileFilter 
 });
 
 // --- Routes ---
 
-// Perbaikan: Menggunakan 'cekAdmin' sesuai file asli middleware Anda
+// Route Tambah Buku (PENTING: upload.single('image') harus ada)
 router.post('/add', authMiddleware.cekAdmin, upload.single('image'), bookController.addBook);
 
+// Route Edit Buku
 router.get('/edit/:id', authMiddleware.cekAdmin, bookController.editBookPage);
 
+// Route Update Buku (Termasuk update foto)
 router.post('/update/:id', authMiddleware.cekAdmin, upload.single('image'), bookController.updateBook);
 
+// Route Hapus Buku
 router.get('/delete/:id', authMiddleware.cekAdmin, bookController.deleteBook);
 
+// Halaman Form Tambah Buku
 router.get('/add', authMiddleware.cekAdmin, (req, res) => {
     res.render('add-book'); 
 });
